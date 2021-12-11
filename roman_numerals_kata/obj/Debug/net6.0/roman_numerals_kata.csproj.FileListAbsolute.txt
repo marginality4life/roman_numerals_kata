@@ -1,0 +1,12 @@
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/bin/Debug/net6.0/roman_numerals_kata.deps.json
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/bin/Debug/net6.0/roman_numerals_kata.dll
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/bin/Debug/net6.0/ref/roman_numerals_kata.dll
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/bin/Debug/net6.0/roman_numerals_kata.pdb
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.csproj.AssemblyReference.cache
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.GeneratedMSBuildEditorConfig.editorconfig
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.AssemblyInfoInputs.cache
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.AssemblyInfo.cs
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.csproj.CoreCompileInputs.cache
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.dll
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/ref/roman_numerals_kata.dll
+/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/obj/Debug/net6.0/roman_numerals_kata.pdb

@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "roman_numerals_kata/1.0.0": {
+        "runtime": {
+          "roman_numerals_kata.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "roman_numerals_kata/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
