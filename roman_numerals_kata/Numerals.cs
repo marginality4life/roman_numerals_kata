@@ -2,37 +2,48 @@
 
 public static class Numerals
 {
-    public static int GetProduct(int[] inputArray)
+    public static int FindPowerConsumption(int[] bootingPower, int[] processingPower)
     {
-        var product = inputArray[0];
-        if (inputArray.Length > 1)
-        {
-            for (var i = 1; i < inputArray.Length; i++)
-            {
-                product = product * inputArray[i];
-            }
-        }
-
-        return product;
+        return FindProcessingPower(processingPower) + FindBootingPower(bootingPower);
     }
 
-    public static int GetLength(int[] inputArray)
+    public static int FindProcessingPower(int[] processingPower)
     {
-        if (GetProduct(inputArray) == 1)
-            return inputArray.Length;
+        var power = 0;
+        foreach (var t in processingPower)
+        {
+            power += t;
+        }
+        return power * processingPower.Length;
+    }
 
-        if (inputArray.Length == 1 && GetProduct(inputArray) == -1)
+    public static int FindBootingPower(int[] bootingPower)
+    {
+        var power = 0;
+        foreach (var t in bootingPower)
+        {
+            if (t > power)
+                power = t;
+        }
+        return power;
+    }
+
+    public static int FindMaximumSustainableClusterSize(int[] processingPower, int[] bootingPower, int powerMax)
+    {
+        if (FindPowerConsumption(bootingPower, processingPower) <= powerMax)
+            return processingPower.Length;
+        
+        if (processingPower.Length == 1 && FindPowerConsumption(bootingPower, processingPower) > powerMax)
             return 0;
 
-        var leftArray = GetLeftArraySlice(inputArray);
-        var rightArray = GetRightArraySlice(inputArray);
-
-        var leftArrayLength = GetLength(leftArray);
-        var rightArrayLength = GetLength(rightArray);
-
-        if (leftArrayLength > rightArrayLength)
-            return leftArrayLength;
-        return rightArrayLength;
+        var leftArrayMax = FindMaximumSustainableClusterSize(GetLeftArraySlice(processingPower),
+            GetLeftArraySlice(bootingPower), powerMax);
+        var rightArrayMax = FindMaximumSustainableClusterSize(GetRightArraySlice(processingPower),
+            GetRightArraySlice(bootingPower), powerMax);
+        
+        if (leftArrayMax > rightArrayMax)
+            return leftArrayMax;
+        return rightArrayMax;
     }
 
     public static int[] GetLeftArraySlice(int[] inputArray)
