@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "CEkz9bdczfcLkBFR7Oy5cyJblN6gBpx31J8B0Cm7DLcCyKsvvz6P8adRl3yk0CThh9j0+LQhYbhirAzRafT25Q==",
+  "dgSpecHash": "23kNvlCj5QW+kYOhnpESfM9C/MM29O3TXDGOTxA9KNZ/fCfyNm7FeLIwqOFgf27HvyzTM0ivp+S6QKYm2yPOAw==",
   "success": true,
   "projectFilePath": "/home/simon/RiderProjects/roman_numerals_kata/roman_numerals_kata/roman_numerals_kata.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/simon/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512"
+  ],
   "logs": []
 }
