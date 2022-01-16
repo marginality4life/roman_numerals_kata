@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "/4WR728FXEdKzhwOT33RnGzHa1Y+0hHjxl+DmpyHySIbfv6aWVAUAfM2kUw8RV0fY0fQMW7Dyyz8kKG8MEDyAQ==",
+  "dgSpecHash": "E64DCWXK/2TQViDRCU/qZei/9pD7o2hZE+T36GK2k/vAzw8Ml6nSVMltdjUQty+Xne71kd2qBH84cyK3meK+4g==",
   "success": true,
   "projectFilePath": "/home/simon/RiderProjects/roman_numerals_kata/kata_test/kata_test.csproj",
   "expectedPackageFiles": [
