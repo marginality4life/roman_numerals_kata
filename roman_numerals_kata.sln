@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "roman_numerals_kata", "roman_numerals_kata\roman_numerals_kata.csproj", "{DC70868F-35D5-4536-AF8F-84720A415B8C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kata", "Kata\Kata.csproj", "{DC70868F-35D5-4536-AF8F-84720A415B8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kata_test", "kata_test\kata_test.csproj", "{FBBD696F-77C1-4B7D-A4FA-539890D64EE6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{FBBD696F-77C1-4B7D-A4FA-539890D64EE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

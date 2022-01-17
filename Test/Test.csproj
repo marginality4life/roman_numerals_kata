@@ -5,6 +5,8 @@
         <Nullable>enable</Nullable>
 
         <IsPackable>false</IsPackable>
+
+        <RootNamespace>kata_test</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -21,7 +23,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\roman_numerals_kata\roman_numerals_kata.csproj" />
+      <ProjectReference Include="..\Kata\Kata.csproj" />
     </ItemGroup>
 
 </Project>
