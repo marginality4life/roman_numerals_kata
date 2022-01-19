@@ -1,0 +1,84 @@
+In the United States, the primary inter-bank payment system is called ACH. This system allows a bank to pull money directly from an account at another bank, without the other bank checking if that's ok with their customer.
+
+Mercury uses this system to allow a user to pull money from their existing bank accounts to fund their Mercury account. In order to establish that our user actually owns the other bank account, we use a service called Plaid, where the user types in their username and password for the 3rd party bank on our website. Plaid then checks with the 3rd party bank if the credentials are valid, and if so we let the user pull money from that account.
+
+In the vast majority of cases, this works just fine. But occasionally someone signs up to Mercury, then links a 3rd party bank account using someone else's stolen username and password, and steals money from it.
+
+To help prevent this, we'd like to compare the data we have on users to the data associated with the 3rd party bank account. The data matching or not isn't a guarantee of fraud, but it can indicate our fraud team should investigate.
+
+Here's an example of data Mercury has:
+
+{
+	"companyId": 1,
+	"users": [
+		{ "firstName": "John",
+		  "lastName": "Smith",
+		  "email": "john@example.com"
+		}
+	],
+	"tradeName": "Mercury",
+	"legalName": "Mercury Technologies, Inc.",
+	"contactEmail": "contact@mercury.com",
+	"contactPhoneNumber": "5557609870"
+}
+
+You can assume this data will always have all fields present, and at least one user.
+
+Here's an example of data we get from the 3rd party bank:
+
+{
+	"companyId": 1, // The Mercury company that linked the account
+	"bank": "Chase", // The third party bank name
+	"linkId" : 1, // Unique identifier for the link
+	"names": ["John B. Smith", "Mercury Technologies"],
+	"emails": ["john@example.com", "alice@example.com"],
+	"phoneNumbers": ["(555)-760-9870"],
+	"mercuryFraudTeamComments": "The user and company names match, as does the phone number. Looks like a clear match."
+}
+
+You can assume this JSON structure will be the same, but the names, emails, and phone numbers might be empty arrays.
+
+In the attached files (mercury-customers.json, third-party-banks.json), there is a complete list of data.
+
+Your job is to go through each linked account, and see if the data there matches the data in the corresponding Mercury account. The third party data doesn't exactly match Mercury's, so you'll have to handle the small inconsistencies in a general way.
+
+To help give you guidance on what should be considered a match, the fraud team has added their comments to each linked 3rd party bank. The exact approach is up to you, but you should:
+
+* Use all of the data available (handle name, phone, and email)
+* Develop a method to handle slight inconsistencies in name matching.
+
+
+Print the results you get in this format:
+
+Total matches: X
+Total mismatches: Y
+
+Link 1: Match
+Link 2: Mismatch
+Link 3: Match
+(Etc.)
+
+### Further improvements
+
+If you have time, try these additional improvements:
+
+- Think of additional edge cases that aren't present in this data set, but you think could exist. Write them down along with the ones you've already handled.
+- Use the nicknames.txt file to handle name matching with nicknames (e.g. Nick vs Nicholas)
+- Propose, or start implementing, a better system for determining a match rather than a yes/no answer.
+- Think of other ways to prevent this type of fraud.
+
+
+## Language/Tools
+
+* Any language is OK. We recommend choosing a language you are very comfortable with.
+* Any libraries are OK
+* Feel free to Google stuff and use Stackoverflow
+
+## Quality
+
+* Focus on getting a good solution to the problem with readable code
+* No need for tests or great error handling
+
+## Duration
+
+* Spend two hours on this. After that period, you and your interviewer can rejoin the Zoom call, and you can explain your code.
