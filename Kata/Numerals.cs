@@ -2,9 +2,10 @@
 
 public static class Numerals
 {
-    public static string ToRoman(int input)
+    public static int Fibbonacci(int iter)
     {
-        return "0";
+        if (iter == 1 || iter == 2)
+            return 1;
+        return Fibbonacci(iter - 1) + Fibbonacci(iter - 2);
     }
-
 }
