@@ -1,5 +1,4 @@
-using roman_numerals_kata.MercuryCustomerDtos;
-using roman_numerals_kata.ThirdPartyCustomerDtos;
+using roman_numerals_kata.Dtos;
 
 namespace roman_numerals_kata;
 
@@ -7,110 +6,111 @@ public class Evaluate
 {
     private List<MercuryCustomer> _mercuryCustomers;
     private List<ThirdPartyCustomer> _thirdPartyCustomers;
+    private Dictionary<string, List<string>> _nickNames;
+    private const int NameMatchThreshold = 2;
 
     public Evaluate()
     {
         _mercuryCustomers = FileReader.DeserializeMercuryCustomers();
         _thirdPartyCustomers = FileReader.DeserializeThirdParty();
-    }
-
-    public MercuryCustomer FindMercuryCustomerToCompare(ThirdPartyCustomer customer)
-    {
-        foreach (var mercuryCustomer in _mercuryCustomers)
-        {
-            if (customer.CompanyId == mercuryCustomer.CompanyId)
-                return mercuryCustomer;
-        }
-
-        return null;
-    }
-
-    private List<LinkMatch> EvaluateBasedOnPhoneNumbers()
-    {
-        var output = new List<LinkMatch>();
-        foreach (var thirdPartyCustomer in _thirdPartyCustomers)
-        {
-            var cust = EvaluatePhoneNumber(FindMercuryCustomerToCompare(thirdPartyCustomer), thirdPartyCustomer);
-            output.Add(cust);
-        }
-
-        return output;
-    }
-
-    private List<LinkMatch> EvaluateBasedOnEmails()
-    {
-        var output = new List<LinkMatch>();
-        foreach (var thirdPartyCustomer in _thirdPartyCustomers)
-        {
-            var cust = CompareEmails.EvaluateEmail(FindMercuryCustomerToCompare(thirdPartyCustomer), thirdPartyCustomer);
-            output.Add(cust);
-        }
-
-        return output;
+        _nickNames = FileReader.DeserializeNickNames();
     }
     
-    private List<LinkMatch> EvaluateBasedOnNames()
+    public void EvaluateCustomers()
     {
-        var output = new List<LinkMatch>();
+        var mismatches = 0;
+        var matches = 0;
         foreach (var thirdPartyCustomer in _thirdPartyCustomers)
         {
-            var cust = CompareNames.EvaluateName(FindMercuryCustomerToCompare(thirdPartyCustomer), thirdPartyCustomer);
-            output.Add(cust);
+            foreach (var mercuryCustomer in _mercuryCustomers)
+            {
+                if (thirdPartyCustomer.companyId == mercuryCustomer.companyId)
+                {
+                    if (NamesMatch(mercuryCustomer, thirdPartyCustomer) && (emailsMatch(thirdPartyCustomer, mercuryCustomer) ||
+                        phoneNumbersMatch(thirdPartyCustomer, mercuryCustomer)))
+                    {
+                        thirdPartyCustomer.matched = true;
+                    }
+                }
+            }
+            if (!thirdPartyCustomer.matched)
+            {
+                mismatches++;
+            }
+            else
+            {
+                matches++;
+            }
         }
-
-        return output;
-    }
-    
-    public void EvaluatePrintOutputNames()
-    {
-        var matchList = EvaluateBasedOnNames();
         
-        Console.WriteLine($"Total matches: {matchList.Count(x => x.Match)}");
-        Console.WriteLine($"Total mismatches: {matchList.Count(x => !x.Match)}");
-        Console.WriteLine();
-        foreach (var item in matchList)
+        Console.WriteLine($"Total matches: {matches}");
+        Console.WriteLine($"Total mismatches: {mismatches}");
+        foreach (var thirdPartyCustomer in _thirdPartyCustomers)
         {
-            Console.WriteLine($"Link {item.LinkId}: {BoolToMatch(item.Match)}");
+            if (thirdPartyCustomer.matched)
+            {
+                Console.WriteLine($"Link {thirdPartyCustomer.linkId}: Match");
+            }
+            else
+            {
+                Console.WriteLine($"Link {thirdPartyCustomer.linkId}: Mismatch");
+            }
         }
     }
     
-    public void EvaluatePrintOutputEmail()
+    private bool emailsMatch(ThirdPartyCustomer thirdPartyCustomer, MercuryCustomer mercuryCustomer)
     {
-        var matchList = EvaluateBasedOnPhoneNumbers();
+        return thirdPartyCustomer.emails.Contains(mercuryCustomer.contactEmail);
+    }
+    
+    private bool phoneNumbersMatch(ThirdPartyCustomer thirdPartyCustomer, MercuryCustomer mercuryCustomer)
+    {
+        var cleanedPhoneNumbers = thirdPartyCustomer.phoneNumbers.Select(x =>
+            x.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "")).ToList();
         
-        Console.WriteLine($"Total matches: {matchList.Count(x => x.Match)}");
-        Console.WriteLine($"Total mismatches: {matchList.Count(x => !x.Match)}");
-        Console.WriteLine();
-        foreach (var item in matchList)
-        {
-            Console.WriteLine($"Link {item.LinkId}: {BoolToMatch(item.Match)}");
-        }
+        return cleanedPhoneNumbers.Contains(mercuryCustomer.contactPhoneNumber);
     }
-
-    public void EvaluatePrintOutputPhone()
+    
+    private bool NamesMatch(MercuryCustomer mercuryCustomer, ThirdPartyCustomer thirdPartyCustomer)
     {
-        var matchList = EvaluateBasedOnPhoneNumbers();
+        var mercuryNames = GetMercuryNames(mercuryCustomer);
+        var thirdPartyNames = GetThirdPartyNames(thirdPartyCustomer);
+        var matches = 0;
+        foreach (var mercuryName in mercuryNames)
+        {
+            foreach (var thirdPartyName in thirdPartyNames)
+            {
+                if ( mercuryName == thirdPartyName || (_nickNames.ContainsKey(thirdPartyName) && _nickNames[thirdPartyName].Contains(mercuryName)) )
+                {
+                    matches++;
+                }
+            }
+        }
+        return matches >= NameMatchThreshold;
+    }
+    
+    private List<string> GetThirdPartyNames(ThirdPartyCustomer thirdPartyCustomer)
+    {
+        List<string> names = new();
+        foreach (var name in thirdPartyCustomer.names)
+        {
+            names.AddRange(name.Split(' ').ToList());
+        }
+        return names;
+    }
+    
+    private List<string> GetMercuryNames(MercuryCustomer mercuryCustomer)
+    {
+        List<string> names = new();
+        foreach (var user in mercuryCustomer.users)
+        {
+            names.AddRange(user.firstName?.Split(' ').ToList() ?? new List<string>());
+            names.AddRange(user.lastName?.Split(' ').ToList() ?? new List<string>());
+        }
+        names.AddRange(mercuryCustomer.legalName?.Split(' ').ToList() ?? new List<string>());
+        names.AddRange(mercuryCustomer.tradeName?.Split(' ').ToList() ?? new List<string>());
         
-        Console.WriteLine($"Total matches: {matchList.Count(x => x.Match)}");
-        Console.WriteLine($"Total mismatches: {matchList.Count(x => !x.Match)}");
-        Console.WriteLine();
-        foreach (var item in matchList)
-        {
-            Console.WriteLine($"Link {item.LinkId}: {BoolToMatch(item.Match)}");
-        }
+        return names;
     }
 
-    private string BoolToMatch(bool match)
-    {
-        return match ? "Match" : "Mismatch";
-    }
-
-    private LinkMatch EvaluatePhoneNumber(MercuryCustomer mercuryCustomer, ThirdPartyCustomer thirdPartyCustomer)
-    {
-        var match = new LinkMatch();
-        match.LinkId = thirdPartyCustomer.LinkId;
-        match.Match = ComparePhone.CompareListPhoneNumbers(mercuryCustomer.ContactPhoneNumber, thirdPartyCustomer.PhoneNumbers);
-
-        return match;
-    }
 }

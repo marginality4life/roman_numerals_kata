@@ -6,23 +6,9 @@ namespace kata_test;
 public class EvaluateTest
 {
     [Fact]
-    public void CallEvalPhone()
+    public void CallEval()
     {
         var eval = new Evaluate();
-        eval.EvaluatePrintOutputPhone();
-    }
-    
-    [Fact]
-    public void CallEvalEmail()
-    {
-        var eval = new Evaluate();
-        eval.EvaluatePrintOutputEmail();
-    }
-    
-    [Fact]
-    public void CallEvalNames()
-    {
-        var eval = new Evaluate();
-        eval.EvaluatePrintOutputNames();
+        eval.EvaluateCustomers();
     }
 }
